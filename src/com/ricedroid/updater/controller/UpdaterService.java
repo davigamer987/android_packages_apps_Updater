@@ -123,6 +123,10 @@ public class UpdaterService extends Service {
                     UpdateInfo update = mUpdaterController.getUpdate(downloadId);
                     setNotificationTitle(update);
                     handleInstallProgress(update);
+                } else if (UpdaterController.ACTION_INSTALL_FINISHED.equals(intent.getAction())) {
+                    UpdateInfo update = mUpdaterController.getUpdate(downloadId);
+                    setNotificationTitle(update);
+                    handleUpdateStatusChange(update);
                 } else if (UpdaterController.ACTION_UPDATE_REMOVED.equals(intent.getAction())) {
                     final boolean isLocalUpdate = Update.LOCAL_ID.equals(downloadId);
                     Bundle extras = mNotificationBuilder.getExtras();
@@ -139,6 +143,7 @@ public class UpdaterService extends Service {
         };
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(UpdaterController.ACTION_DOWNLOAD_PROGRESS);
+        intentFilter.addAction(UpdaterController.ACTION_INSTALL_FINISHED);
         intentFilter.addAction(UpdaterController.ACTION_INSTALL_PROGRESS);
         intentFilter.addAction(UpdaterController.ACTION_UPDATE_STATUS);
         intentFilter.addAction(UpdaterController.ACTION_UPDATE_REMOVED);
